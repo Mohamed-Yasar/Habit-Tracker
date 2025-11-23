@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Habit Tracker - 2025 Year Overview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        ::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100 flex justify-center p-4 md:p-8">
+
+<div class="w-full max-w-5xl bg-white rounded-2xl shadow-xl border border-gray-200 p-6 md:p-8 space-y-8">
+
+    <!-- HEADER -->
+    <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 tracking-tight">
+                2025 Year Overview
+            </h1>
+            <p class="text-sm text-gray-500 mt-1">
+                Summary of your habits for <span class="font-semibold">November &amp; December 2025</span>.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3 text-xs">
+            <div class="flex items-center gap-2 bg-green-50 text-green-700 px-3 py-2 rounded-lg border border-green-100">
+                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                <span>Habit Progress</span>
+            </div>
+            <div class="flex items-center gap-2 bg-pink-50 text-pink-700 px-3 py-2 rounded-lg border border-pink-100">
+                <span class="w-2 h-2 rounded-full bg-pink-500"></span>
+                <span>Mental State (Mood &amp; Motivation)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- NO DATA WARNING -->
+    <div id="no-data-banner" class="hidden bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm rounded-xl px-4 py-3 flex items-start gap-3">
+        <div class="mt-0.5">⚠️</div>
+        <div>
+            <p class="font-semibold">No data found for November or December.</p>
+            <p class="mt-1">
+                Open your <span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">habit-tracker-november.html</span>
+                and <span class="font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded">habit-tracker-december.html</span> pages,
+                tick some habits, then come back here.
+            </p>
+        </div>
+    </div>
+
+    <!-- TOP SUMMARY CARDS -->
+    <section id="summary-cards" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 flex flex-col">
+            <span class="text-xs text-gray-500 uppercase tracking-wide">Months tracked</span>
+            <span id="summary-months" class="mt-2 text-2xl font-bold text-gray-800">0</span>
+            <span class="mt-1 text-xs text-gray-500">With saved habit data</span>
+        </div>
+
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 flex flex-col">
+            <span class="text-xs text-gray-500 uppercase tracking-wide">Avg yearly habit progress</span>
+            <span id="summary-avg-progress" class="mt-2 text-2xl font-bold text-gray-800">0%</span>
+            <span class="mt-1 text-xs text-gray-500">Across all tracked months</span>
+        </div>
+
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 flex flex-col">
+            <span class="text-xs text-gray-500 uppercase tracking-wide">Best month</span>
+            <span id="summary-best-month" class="mt-2 text-lg font-semibold text-gray-800">–</span>
+            <span id="summary-best-month-progress" class="mt-1 text-xs text-gray-500">Progress: 0%</span>
+        </div>
+
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 flex flex-col">
+            <span class="text-xs text-gray-500 uppercase tracking-wide">Total habit check-ins</span>
+            <span id="summary-total-checks" class="mt-2 text-2xl font-bold text-gray-800">0</span>
+            <span class="mt-1 text-xs text-gray-500">Across all months</span>
+        </div>
+    </section>
+
+    <!-- MONTHLY STATS -->
+    <section class="space-y-3">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-gray-800">Monthly Breakdown</h2>
+            <p class="text-xs text-gray-500">
+                Reading from your November &amp; December tracker saves.
+            </p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+            <table class="min-w-full text-xs">
+                <thead>
+                <tr class="bg-gray-50 text-gray-600 border-b border-gray-200">
+                    <th class="px-4 py-3 text-left font-semibold">Month</th>
+                    <th class="px-4 py-3 text-center font-semibold">Days</th>
+                    <th class="px-4 py-3 text-center font-semibold">Habits</th>
+                    <th class="px-4 py-3 text-center font-semibold">Total Check-ins</th>
+                    <th class="px-4 py-3 text-center font-semibold">Habit Progress</th>
+                    <th class="px-4 py-3 text-center font-semibold">Avg Mood</th>
+                    <th class="px-4 py-3 text-center font-semibold">Avg Motivation</th>
+                </tr>
+                </thead>
+                <tbody id="months-table-body" class="divide-y divide-gray-100">
+                <!-- Rows injected by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Simple bar comparison -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-700 mb-3">Habit Progress by Month</h3>
+                <div id="month-progress-bars" class="space-y-2 text-xs">
+                    <!-- bars injected -->
+                </div>
+            </div>
+            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-700 mb-3">Average Mood by Month</h3>
+                <div id="month-mood-bars" class="space-y-2 text-xs">
+                    <!-- bars injected -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PER-HABIT YEARLY STATS -->
+    <section class="space-y-3">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-gray-800">Per-Habit Yearly Performance</h2>
+            <p class="text-xs text-gray-500">
+                Combined across November &amp; December 2025.
+            </p>
+        </div>
+
+        <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+            <div class="grid grid-cols-[1.7fr_0.6fr_0.6fr_2.2fr] gap-2 text-[11px] font-semibold text-gray-500 border-b border-gray-200 pb-2 mb-2">
+                <div>Habit</div>
+                <div class="text-center">Done</div>
+                <div class="text-center">Goal</div>
+                <div>Progress</div>
+            </div>
+            <div id="habit-yearly-rows" class="space-y-1 text-xs">
+                <!-- rows injected -->
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // Keys must match the month HTML files
+    const NOV_KEY = 'habitTracker_nov2025_v1';
+    const DEC_KEY = 'habitTracker_dec2025_v1';
+
+    function loadMonth(key) {
+        try {
+            const raw = localStorage.getItem(key);
+            if (!raw) return null;
+            return JSON.parse(raw); // { habits: [...], mental: { mood:[], motivation:[] } }
+        } catch (e) {
+            console.error('Error loading key', key, e);
+            return null;
+        }
+    }
+
+    function avg(arr) {
+        if (!arr || !arr.length) return 0;
+        return arr.reduce((a, b) => a + b, 0) / arr.length;
+    }
+
+    function computeMonthStats(label, monthData, daysInMonth) {
+        if (!monthData) return null;
+
+        const totalHabits = monthData.habits?.length || 0;
+        const totalPossible = totalHabits * daysInMonth;
+        let totalChecks = 0;
+
+        monthData.habits.forEach(habit => {
+            habit.days.forEach(checked => { if (checked) totalChecks++; });
+        });
+
+        const habitProgress = totalPossible ? (totalChecks / totalPossible) * 100 : 0;
+        const avgMood = avg(monthData.mental?.mood || []);
+        const avgMotiv = avg(monthData.mental?.motivation || []);
+
+        return {
+            label,
+            daysInMonth,
+            totalHabits,
+            totalPossible,
+            totalChecks,
+            habitProgress,
+            avgMood,
+            avgMotiv
+        };
+    }
+
+    function render() {
+        const nov = loadMonth(NOV_KEY);
+        const dec = loadMonth(DEC_KEY);
+
+        const novStats = computeMonthStats('November', nov, 30);
+        const decStats = computeMonthStats('December', dec, 31);
+
+        const months = [novStats, decStats].filter(Boolean);
+
+        const noDataBanner = document.getElementById('no-data-banner');
+        if (months.length === 0) {
+            noDataBanner.classList.remove('hidden');
+        } else {
+            noDataBanner.classList.add('hidden');
+        }
+
+        // --- Summary cards ---
+        const monthsTracked = months.length;
+        let avgYearProgress = 0;
+        let totalChecksYear = 0;
+
+        let bestMonthLabel = '–';
+        let bestMonthProgress = 0;
+
+        if (months.length > 0) {
+            totalChecksYear = months.reduce((sum, m) => sum + m.totalChecks, 0);
+            avgYearProgress = months.reduce((sum, m) => sum + m.habitProgress, 0) / months.length;
+
+            const best = months.reduce((best, m) => {
+                return (m.habitProgress > best.habitProgress) ? m : best;
+            }, { label: '–', habitProgress: 0 });
+
+            bestMonthLabel = best.label;
+            bestMonthProgress = best.habitProgress;
+        }
+
+        document.getElementById('summary-months').innerText = monthsTracked;
+        document.getElementById('summary-avg-progress').innerText = avgYearProgress.toFixed(1) + '%';
+        document.getElementById('summary-total-checks').innerText = totalChecksYear;
+        document.getElementById('summary-best-month').innerText = bestMonthLabel;
+        document.getElementById('summary-best-month-progress').innerText =
+            'Progress: ' + bestMonthProgress.toFixed(1) + '%';
+
+        // --- Monthly table ---
+        const tbody = document.getElementById('months-table-body');
+        tbody.innerHTML = '';
+
+        if (novStats) {
+            tbody.appendChild(makeMonthRow(novStats));
+        }
+        if (decStats) {
+            tbody.appendChild(makeMonthRow(decStats));
+        }
+
+        // --- Month comparison bars ---
+        renderMonthBars('month-progress-bars', months, m => m.habitProgress, '%', 'bg-green-400');
+        renderMonthBars('month-mood-bars', months, m => m.avgMood, '', 'bg-pink-400', 10);
+
+        // --- Per-habit yearly stats ---
+        renderYearlyHabitStats(nov, dec);
+    }
+
+    function makeMonthRow(stat) {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50';
+
+        tr.innerHTML = `
+            <td class="px-4 py-3 text-left font-medium text-gray-800">${stat.label}</td>
+            <td class="px-4 py-3 text-center text-gray-700">${stat.daysInMonth}</td>
+            <td class="px-4 py-3 text-center text-gray-700">${stat.totalHabits}</td>
+            <td class="px-4 py-3 text-center text-gray-700">${stat.totalChecks}</td>
+            <td class="px-4 py-3 text-center text-gray-700 font-semibold">${stat.habitProgress.toFixed(1)}%</td>
+            <td class="px-4 py-3 text-center text-gray-700">${stat.avgMood.toFixed(1)}</td>
+            <td class="px-4 py-3 text-center text-gray-700">${stat.avgMotiv.toFixed(1)}</td>
+        `;
+        return tr;
+    }
+
+    function renderMonthBars(containerId, months, valueFn, suffix, barColorClass, maxValueOverride) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+
+        if (!months.length) {
+            container.innerHTML = '<p class="text-gray-400 text-xs">No data yet.</p>';
+            return;
+        }
+
+        const values = months.map(valueFn);
+        const maxVal = maxValueOverride || Math.max(...values, 1);
+
+        months.forEach((m, idx) => {
+            const val = values[idx];
+            const width = (val / maxVal) * 100;
+
+            const row = document.createElement('div');
+            row.className = 'flex items-center gap-2';
+
+            row.innerHTML = `
+                <div class="w-20 text-gray-700">${m.label}</div>
+                <div class="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full ${barColorClass}" style="width: ${width}%;"></div>
+                </div>
+                <div class="w-14 text-right text-gray-700">${val.toFixed(1)}${suffix}</div>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function renderYearlyHabitStats(nov, dec) {
+        const container = document.getElementById('habit-yearly-rows');
+        container.innerHTML = '';
+
+        if (!nov && !dec) {
+            container.innerHTML = '<p class="text-gray-400 text-xs">No habit data yet.</p>';
+            return;
+        }
+
+        const habitsNov = nov?.habits || [];
+        const habitsDec = dec?.habits || [];
+        const maxLen = Math.max(habitsNov.length, habitsDec.length);
+
+        for (let i = 0; i < maxLen; i++) {
+            const hNov = habitsNov[i];
+            const hDec = habitsDec[i];
+
+            const name = (hNov?.name || hDec?.name || `Habit ${i+1}`);
+
+            // goal = sum of each month goal if present
+            let goal = 0;
+            if (hNov) goal += (typeof hNov.goal === 'number' ? hNov.goal : hNov.days.length);
+            if (hDec) goal += (typeof hDec.goal === 'number' ? hDec.goal : hDec.days.length);
+
+            // actual = count true
+            let actual = 0;
+            if (hNov) actual += hNov.days.filter(Boolean).length;
+            if (hDec) actual += hDec.days.filter(Boolean).length;
+
+            const pct = goal ? (actual / goal) * 100 : 0;
+
+            const row = document.createElement('div');
+            row.className = 'grid grid-cols-[1.7fr_0.6fr_0.6fr_2.2fr] gap-2 items-center';
+
+            row.innerHTML = `
+                <div class="pr-2 truncate text-gray-800" title="${name}">${name}</div>
+                <div class="text-center text-gray-800 font-semibold">${actual}</div>
+                <div class="text-center text-gray-500">${goal}</div>
+                <div class="h-4 bg-gray-200 rounded-sm overflow-hidden flex items-center">
+                    <div class="h-full bg-green-400" style="width:${Math.min(100, pct)}%;"></div>
+                    <span class="ml-2 text-[10px] text-gray-700 pl-1">${pct.toFixed(1)}%</span>
+                </div>
+            `;
+            container.appendChild(row);
+        }
+    }
+
+    render();
+</script>
+</body>
+</html>
+	
